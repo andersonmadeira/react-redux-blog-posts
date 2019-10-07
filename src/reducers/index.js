@@ -3,31 +3,32 @@ import {
   RECEIVE_POSTS,
   HANDLE_REQUEST_POSTS_ERROR,
 } from '../actions/action-types'
+import { combineReducers } from 'redux'
 
-const initialState = {
+const postsInitialState = {
+  items: [],
   loading: false,
   error: null,
-  posts: [],
 }
 
-const postsReducer = (state = initialState, action) => {
+const postsReducer = (state = postsInitialState, action) => {
   switch (action.type) {
     case REQUEST_POSTS:
       return {
+        items: [],
         loading: true,
         error: null,
-        posts: [],
       }
     case RECEIVE_POSTS:
       return {
+        items: action.payload.items,
         loading: false,
         error: null,
-        posts: action.payload.posts,
       }
     case HANDLE_REQUEST_POSTS_ERROR:
       return {
+        items: [],
         loading: false,
-        posts: [],
         error: action.payload.error,
       }
     default:
@@ -35,4 +36,6 @@ const postsReducer = (state = initialState, action) => {
   }
 }
 
-export default postsReducer
+export default combineReducers({
+  posts: postsReducer,
+})
